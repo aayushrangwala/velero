@@ -462,6 +462,10 @@ func volumeSnapshotterForSnapshotLocation(
 		return nil, errors.Wrapf(err, "error getting volume snapshotter for provider %s", snapshotLocation.Spec.Provider)
 	}
 
+	if snapshotLocation.Spec.CACert != nil {
+		snapshotLocation.Spec.Config["caCert"] = string(snapshotLocation.Spec.CACert)
+	}
+
 	if err = volumeSnapshotter.Init(snapshotLocation.Spec.Config); err != nil {
 		return nil, errors.Wrapf(err, "error initializing volume snapshotter for volume snapshot location %s", snapshotLocationName)
 	}

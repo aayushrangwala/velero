@@ -377,6 +377,10 @@ func (ib *itemBackupper) volumeSnapshotter(snapshotLocation *velerov1api.VolumeS
 		return nil, err
 	}
 
+	if snapshotLocation.Spec.CACert != nil {
+		snapshotLocation.Spec.Config["caCert"] = string(snapshotLocation.Spec.CACert)
+	}
+
 	if err := bs.Init(snapshotLocation.Spec.Config); err != nil {
 		return nil, err
 	}

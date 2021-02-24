@@ -73,6 +73,10 @@ func (r *pvRestorer) executePVAction(obj *unstructured.Unstructured) (*unstructu
 		return nil, errors.WithStack(err)
 	}
 
+	if snapshotInfo.location.Spec.CACert != nil {
+		snapshotInfo.location.Spec.Config["caCert"] = string(snapshotInfo.location.Spec.CACert)
+	}
+
 	if err := volumeSnapshotter.Init(snapshotInfo.location.Spec.Config); err != nil {
 		return nil, errors.WithStack(err)
 	}

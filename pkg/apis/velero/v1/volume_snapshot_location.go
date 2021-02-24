@@ -57,6 +57,10 @@ type VolumeSnapshotLocationSpec struct {
 	// Provider is the provider of the volume storage.
 	Provider string `json:"provider"`
 
+	// CACert defines a CA bundle to use when verifying TLS connections to the provider.
+	// +optional
+	CACert []byte `json:"caCert,omitempty"`
+
 	// Config is for provider-specific configuration fields.
 	// +optional
 	Config map[string]string `json:"config,omitempty"`

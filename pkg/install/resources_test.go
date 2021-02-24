@@ -31,11 +31,12 @@ func TestResources(t *testing.T) {
 	assert.Equal(t, make(map[string]string), bsl.Spec.Config)
 	assert.Equal(t, []byte("test"), bsl.Spec.ObjectStorage.CACert)
 
-	vsl := VolumeSnapshotLocation(DefaultVeleroNamespace, "test", make(map[string]string))
+	vsl := VolumeSnapshotLocation(DefaultVeleroNamespace, "test", make(map[string]string), []byte("test"))
 
 	assert.Equal(t, "velero", vsl.ObjectMeta.Namespace)
 	assert.Equal(t, "test", vsl.Spec.Provider)
 	assert.Equal(t, make(map[string]string), vsl.Spec.Config)
+	assert.Equal(t, []byte("test"), vsl.Spec.CACert)
 
 	ns := Namespace("velero")
 

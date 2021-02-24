@@ -165,7 +165,7 @@ func BackupStorageLocation(namespace, provider, bucket, prefix string, config ma
 	}
 }
 
-func VolumeSnapshotLocation(namespace, provider string, config map[string]string) *velerov1api.VolumeSnapshotLocation {
+func VolumeSnapshotLocation(namespace, provider string, config map[string]string, caCert []byte) *velerov1api.VolumeSnapshotLocation {
 	return &velerov1api.VolumeSnapshotLocation{
 		ObjectMeta: objectMeta(namespace, "default"),
 		TypeMeta: metav1.TypeMeta{
@@ -174,6 +174,7 @@ func VolumeSnapshotLocation(namespace, provider string, config map[string]string
 		},
 		Spec: velerov1api.VolumeSnapshotLocationSpec{
 			Provider: provider,
+			CACert:   caCert,
 			Config:   config,
 		},
 	}
@@ -269,7 +270,7 @@ func AllResources(o *VeleroOptions) (*unstructured.UnstructuredList, error) {
 
 	// A snapshot location may not be desirable for users relying on restic
 	if o.UseVolumeSnapshots {
-		vsl := VolumeSnapshotLocation(o.Namespace, o.ProviderName, o.VSLConfig)
+		vsl := VolumeSnapshotLocation(o.Namespace, o.ProviderName, o.VSLConfig, o.CACertData)
 		appendUnstructured(resources, vsl)
 	}
 
